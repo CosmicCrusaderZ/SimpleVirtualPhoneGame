@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Phone Simulator</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Virtual Phone Simulator</h1>
+        
+        <div class="phone-frame">
+            <div class="phone-screen">
+                <!-- Status Bar -->
+                <div class="status-bar">
+                    <div class="status-bar-time">00:00</div>
+                    <div class="status-bar-icons">
+                        <span class="wifi-icon"><i class="fas fa-wifi"></i></span>
+                        <span class="signal-icon"><i class="fas fa-signal"></i></span>
+                        <span class="battery-icon"></span>
+                    </div>
+                </div>
+                
+                <!-- Home Screen -->
+                <div class="home-screen">
+                    <div class="app-grid">
+                        <!-- Game Apps -->
+                        <div class="app-icon" data-app="sudoku">
+                            <div class="app-icon-img" style="background-color: #3498db;">
+                                <i class="fas fa-th"></i>
+                            </div>
+                            <div class="app-icon-name">Sudoku</div>
+                        </div>
+                        
+                        <div class="app-icon" data-app="minesweeper">
+                            <div class="app-icon-img" style="background-color: #e74c3c;">
+                                <i class="fas fa-bomb"></i>
+                            </div>
+                            <div class="app-icon-name">Minesweeper</div>
+                        </div>
+                        
+                        <!-- Utility Apps -->
+                        <div class="app-icon" data-app="calculator">
+                            <div class="app-icon-img" style="background-color: #f39c12;">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <div class="app-icon-name">Calculator</div>
+                        </div>
+                        
+                        <div class="app-icon" data-app="weather">
+                            <div class="app-icon-img" style="background-color: #3498db;">
+                                <i class="fas fa-cloud-sun"></i>
+                            </div>
+                            <div class="app-icon-name">Weather</div>
+                        </div>
+                        
+                        <div class="app-icon" data-app="notes">
+                            <div class="app-icon-img" style="background-color: #f1c40f;">
+                                <i class="fas fa-sticky-note"></i>
+                            </div>
+                            <div class="app-icon-name">Notes</div>
+                        </div>
+                        
+                        <div class="app-icon" data-app="calendar">
+                            <div class="app-icon-img" style="background-color: #e67e22;">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="app-icon-name">Calendar</div>
+                        </div>
+                        
+                        <div class="app-icon" data-app="camera">
+                            <div class="app-icon-img" style="background-color: #9b59b6;">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <div class="app-icon-name">Camera</div>
+                        </div>
+                        
+                        <div class="app-icon" data-app="settings">
+                            <div class="app-icon-img" style="background-color: #7f8c8d;">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <div class="app-icon-name">Settings</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- App Screens -->
+                <!-- Sudoku App -->
+                <div id="sudoku-app" class="app-screen">
+                    <div class="app-header">
+                        <button class="app-back-btn">&larr;</button>
+                        <div class="app-title">Sudoku</div>
+                        <span></span>
+                    </div>
+                    <div class="app-content">
+                        <div class="sudoku-container">
+                            <div class="sudoku-board"></div>
+                            <div class="sudoku-controls">
+                                <button class="sudoku-number-btn" data-number="1">1</button>
+                                <button class="sudoku-number-btn" data-number="2">2</button>
+                                <button class="sudoku-number-btn" data-number="3">3</button>
+                                <button class="sudoku-number-btn" data-number="4">4</button>
+                                <button class="sudoku-number-btn" data-number="5">5</button>
+                                <button class="sudoku-number-btn" data-number="6">6</button>
+                                <button class="sudoku-number-btn" data-number="7">7</button>
+                                <button class="sudoku-number-btn" data-number="8">8</button>
+                                <button class="sudoku-number-btn" data-number="9">9</button>
+                                <button class="sudoku-number-btn sudoku-clear-btn" data-number="0">Clear</button>
+                                <button class="sudoku-number-btn sudoku-check-btn">Check Solution</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Minesweeper App -->
+                <div id="minesweeper-app" class="app-screen">
+                    <div class="app-header">
+                        <button class="app-back-btn">&larr;</button>
+                        <div class="app-title">Minesweeper</div>
+                        <span></span>
+                    </div>
+                    <div class="app-content">
+                        <div class="minesweeper-container">
+                            <div class="minesweeper-header">
+                                <div class="minesweeper-stats">
+                                    <div class="mines-counter">💣 <span id="mines-count">10</span></div>
+                                    <div class="timer">⏱️ <span id="timer">0</span></div>
+                                </div>
+                                <div class="smiley">😊</div>
+                            </div>
+                            <div class="minesweeper-grid"></div>
+                            <div class="minesweeper-controls">
+                                <div class="minesweeper-mode">
+                                    <input type="checkbox" id="flag-mode">
+                                    <label for="flag-mode">Flag Mode 🚩</label>
+                                </div>
+                                <button class="minesweeper-btn new-game-btn">New Game</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Calculator App -->
+                <div id="calculator-app" class="app-screen">
+                    <div class="app-header">
+                        <button class="app-back-btn">&larr;</button>
+                        <div class="app-title">Calculator</div>
+                        <span></span>
+                    </div>
+                    <div class="app-content">
+                        <div class="calculator-container">
+                            <div class="calculator-display">0</div>
+                            <div class="calculator-buttons">
+                                <!-- Calculator buttons will be added via JavaScript -->
+                                <div class="calculator-message">Calculator App Coming Soon!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Weather App -->
+                <div id="weather-app" class="app-screen">
+                    <div class="app-header">
+                        <button class="app-back-btn">&larr;</button>
+                        <div class="app-title">Weather</div>
+                        <span></span>
+                    </div>
+                    <div class="app-content">
+                        <div class="weather-container">
+                            <div class="weather-message">Weather App Coming Soon!</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Notes App -->
+                <div id="notes-app" class="app-screen">
+                    <div class="app-header">
+                        <button class="app-back-btn">&larr;</button>
+                        <div class="app-title">Notes</div>
+                        <span></span>
+                    </div>
+                    <div class="app-content">
+                        <div class="notes-container">
+                            <div class="notes-message">Notes App Coming Soon!</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Calendar App -->
+                <div id="calendar-app" class="app-screen">
+                    <div class="app-header">
+                        <button class="app-back-btn">&larr;</button>
+                        <div class="app-title">Calendar</div>
+                        <span></span>
+                    </div>
+                    <div class="app-content">
+                        <div class="calendar-container">
+                            <div class="calendar-message">Calendar App Coming Soon!</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Camera App -->
+                <div id="camera-app" class="app-screen">
+                    <div class="app-header">
+                        <button class="app-back-btn">&larr;</button>
+                        <div class="app-title">Camera</div>
+                        <span></span>
+                    </div>
+                    <div class="app-content">
+                        <div class="camera-container">
+                            <div class="camera-message">Camera App Coming Soon!</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Settings App -->
+                <div id="settings-app" class="app-screen">
+                    <div class="app-header">
+                        <button class="app-back-btn">&larr;</button>
+                        <div class="app-title">Settings</div>
+                        <span></span>
+                    </div>
+                    <div class="app-content">
+                        <div class="settings-container">
+                            <div class="settings-message">Settings App Coming Soon!</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation Bar -->
+                <div class="nav-bar">
+                    <div class="nav-btn home-btn">
+                        <i class="fas fa-home"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/utils.js"></script>
+    <script src="js/apps.js"></script>
+    <script src="js/phone.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/notes.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/games/games.js"></script>
+    <script src="js/games/sudoku.js"></script>
+    <script src="js/games/minesweeper.js"></script>
+</body>
+</html>

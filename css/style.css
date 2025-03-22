@@ -1,0 +1,1620 @@
+/* Main styling for Phone Simulator */
+
+/* Google Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+/* Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  /* Color Variables */
+  --phone-frame-color: #e0e0e0;
+  --phone-screen-color: #f9f9f9;
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --danger-color: #e74c3c;
+  --text-color: #333333;
+  --text-light: #ffffff;
+  --text-muted: #95a5a6;
+  --border-color: #dddddd;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  
+  /* Size Variables */
+  --phone-width: 320px;
+  --phone-height: 640px;
+  --status-bar-height: 30px;
+  --nav-bar-height: 60px;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: var(--text-color);
+  padding: 20px;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  margin-bottom: 30px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Phone Frame Styles */
+.phone-frame {
+  width: var(--phone-width);
+  height: var(--phone-height);
+  background-color: var(--phone-frame-color);
+  border-radius: 36px;
+  position: relative;
+  padding: 12px;
+  box-shadow: 0 15px 30px var(--shadow-color);
+  overflow: hidden;
+}
+
+/* Phone Screen Styles */
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  background-color: var(--phone-screen-color);
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Status Bar Styles */
+.status-bar {
+  height: var(--status-bar-height);
+  background-color: var(--phone-screen-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.status-bar-time {
+  font-weight: 600;
+}
+
+.status-bar-icons {
+  display: flex;
+  gap: 8px;
+}
+
+.status-bar-icons i {
+  font-size: 12px;
+}
+
+.battery-icon {
+  width: 20px;
+  height: 10px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  position: relative;
+  margin-left: 5px;
+}
+
+.battery-icon::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: calc(var(--level, 70) * 0.14px);
+  height: 6px;
+  background-color: currentColor;
+  border-radius: 1px;
+}
+
+/* Set battery level based on data-level attribute */
+.battery-icon[data-level] {
+  --level: attr(data-level);
+}
+
+/* Fallback static levels */
+.battery-icon[data-level="100"] { --level: 100; }
+.battery-icon[data-level="90"] { --level: 90; }
+.battery-icon[data-level="80"] { --level: 80; }
+.battery-icon[data-level="70"] { --level: 70; }
+.battery-icon[data-level="60"] { --level: 60; }
+.battery-icon[data-level="50"] { --level: 50; }
+.battery-icon[data-level="40"] { --level: 40; }
+.battery-icon[data-level="30"] { --level: 30; }
+.battery-icon[data-level="20"] { --level: 20; }
+.battery-icon[data-level="10"] { --level: 10; }
+
+.battery-icon::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  right: -3px;
+  width: 2px;
+  height: 4px;
+  background-color: currentColor;
+  border-radius: 0 1px 1px 0;
+}
+
+/* Home Screen Styles */
+.home-screen {
+  height: calc(100% - var(--status-bar-height) - var(--nav-bar-height));
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding-top: 10px;
+}
+
+.app-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.app-icon:hover, .app-icon:active {
+  transform: scale(1.1);
+}
+
+.app-icon-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background-color: var(--primary-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.app-icon-name {
+  font-size: 12px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/* App Screens */
+.app-screen {
+  position: absolute;
+  top: var(--status-bar-height);
+  left: 0;
+  width: 100%;
+  height: calc(100% - var(--status-bar-height) - var(--nav-bar-height));
+  background-color: white;
+  z-index: 10;
+  display: none;
+  overflow-y: auto;
+}
+
+.app-screen.active {
+  display: block;
+  animation: fadeIn 0.3s;
+}
+
+.app-header {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--phone-screen-color);
+}
+
+.app-title {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.app-back-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+  color: var(--primary-color);
+}
+
+.app-content {
+  padding: 15px;
+  height: calc(100% - 50px);
+  overflow-y: auto;
+}
+
+/* Navigation Bar Styles */
+.nav-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: var(--nav-bar-height);
+  background-color: var(--phone-screen-color);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+}
+
+.nav-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--phone-screen-color);
+  border: 1px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.nav-btn:hover {
+  background-color: var(--border-color);
+}
+
+/* Sudoku Game Styles */
+.sudoku-container {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.sudoku-board {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  gap: 1px;
+  border: 2px solid var(--text-color);
+  margin-top: 15px;
+}
+
+.sudoku-cell {
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+}
+
+.sudoku-cell.fixed {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}
+
+.sudoku-cell.selected {
+  background-color: #e3f2fd;
+}
+
+.sudoku-cell.error {
+  color: var(--danger-color);
+}
+
+.sudoku-cell:nth-child(3n) {
+  border-right: 2px solid var(--text-color);
+}
+
+.sudoku-cell:nth-child(9n) {
+  border-right: none;
+}
+
+.sudoku-row:nth-child(3n) .sudoku-cell {
+  border-bottom: 2px solid var(--text-color);
+}
+
+.sudoku-controls {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  margin-top: 15px;
+}
+
+.sudoku-number-btn {
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.sudoku-clear-btn {
+  grid-column: span 2;
+  background-color: var(--danger-color);
+}
+
+.sudoku-check-btn {
+  grid-column: span 3;
+  background-color: var(--secondary-color);
+}
+
+/* Minesweeper Game Styles */
+.minesweeper-container {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.minesweeper-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  background-color: var(--text-color);
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+}
+
+.minesweeper-stats {
+  display: flex;
+  gap: 15px;
+}
+
+.minesweeper-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 2px;
+  margin-top: 15px;
+}
+
+.minesweeper-cell {
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 2px;
+  user-select: none;
+}
+
+.minesweeper-cell.revealed {
+  background-color: white;
+  cursor: default;
+}
+
+.minesweeper-cell.flagged::before {
+  content: '🚩';
+}
+
+.minesweeper-cell.mine-revealed {
+  background-color: var(--danger-color);
+}
+
+.minesweeper-cell.mine-revealed::before {
+  content: '💣';
+}
+
+.minesweeper-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.minesweeper-mode {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.minesweeper-btn {
+  padding: 8px 15px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Calculator App Styles */
+.calculator-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.calculator-display {
+  width: 100%;
+  min-height: 80px;
+  background-color: var(--text-color);
+  color: var(--text-light);
+  font-size: 28px;
+  font-weight: 500;
+  text-align: right;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.calculator-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  flex-grow: 1;
+}
+
+.calculator-button {
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-digit {
+  background-color: #f0f0f0;
+}
+
+.btn-operator {
+  background-color: #e0e0e0;
+}
+
+.btn-function {
+  background-color: #e0e0e0;
+  font-size: 16px;
+}
+
+.btn-equals {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-clear {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.btn-memory {
+  background-color: var(--text-muted);
+  color: white;
+  font-size: 14px;
+}
+
+.calculator-settings {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.calculator-mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.slider.round {
+  border-radius: 20px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.calculator-history {
+  margin-bottom: 10px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.history-header {
+  padding: 8px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  background-color: #eeeeee;
+}
+
+.clear-history-btn {
+  border: none;
+  background: none;
+  color: var(--primary-color);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.history-content {
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.history-item {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+}
+
+.history-item:hover {
+  background-color: #eeeeee;
+}
+
+.history-expression {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.history-result {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Notes App Styles */
+.notes-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.notes-views {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.notes-list-view {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.notes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.notes-search {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+
+.notes-search-input {
+  width: 100%;
+  padding: 8px 30px 8px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.notes-search-clear-btn {
+  position: absolute;
+  right: 5px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.notes-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.notes-actions button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.add-note-btn {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.toggle-dark-mode-btn {
+  font-size: 14px;
+}
+
+.export-notes-btn,
+.import-notes-btn {
+  font-size: 14px;
+}
+
+.notes-categories {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.category-label {
+  padding: 5px 10px;
+  border-radius: 15px;
+  background-color: #f0f0f0;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.category-label.selected {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.category-label:hover {
+  background-color: #e0e0e0;
+}
+
+.category-label.add-category {
+  background-color: #f0f0f0;
+  border: 1px dashed var(--border-color);
+}
+
+.notes-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px 0;
+}
+
+.note-item {
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.note-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.note-item-title {
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.note-item-preview {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.note-item-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.note-item.color-1 {
+  border-left: 4px solid #3498db;
+}
+
+.note-item.color-2 {
+  border-left: 4px solid #e74c3c;
+}
+
+.note-item.color-3 {
+  border-left: 4px solid #2ecc71;
+}
+
+.note-item.color-4 {
+  border-left: 4px solid #f39c12;
+}
+
+.empty-notes-message {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 30px 0;
+}
+
+.note-editor-view {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.note-editor-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.note-editor-title {
+  flex-grow: 1;
+  font-size: 18px;
+  border: none;
+  padding: 5px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.note-editor-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.note-editor-actions button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-note-btn {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.delete-note-btn {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.note-editor-category-select {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.note-category-selector {
+  padding: 5px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+}
+
+.note-last-modified {
+  color: var(--text-muted);
+}
+
+.note-editor-toolbar {
+  display: flex;
+  gap: 5px;
+  padding: 5px 0;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.note-editor-toolbar button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: none;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.note-editor-toolbar button:hover {
+  background-color: #f0f0f0;
+}
+
+.note-color-picker {
+  position: relative;
+}
+
+.color-palette {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  padding: 5px;
+  border-radius: 3px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  flex-wrap: wrap;
+  width: 100px;
+}
+
+.color-palette span {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.note-editor-content {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  min-height: 200px;
+  overflow-y: auto;
+}
+
+.auto-save-confirmation {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 12px;
+  animation: fadeOut 2s forwards;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Dark mode for notes */
+.notes-container.dark-mode {
+  background-color: #121212;
+  color: white;
+}
+
+.notes-container.dark-mode .notes-search-input,
+.notes-container.dark-mode .note-editor-title,
+.notes-container.dark-mode .note-editor-content,
+.notes-container.dark-mode .note-category-selector {
+  background-color: #1e1e1e;
+  color: white;
+  border-color: #333;
+}
+
+.notes-container.dark-mode .category-label {
+  background-color: #333;
+  color: white;
+}
+
+.notes-container.dark-mode .note-item {
+  background-color: #1e1e1e;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.notes-container.dark-mode .notes-header,
+.notes-container.dark-mode .notes-categories,
+.notes-container.dark-mode .note-editor-toolbar {
+  border-color: #333;
+}
+
+/* Settings App Styles */
+.settings-container {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.settings-header {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 15px;
+}
+
+.settings-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.settings-content {
+  padding-bottom: 20px;
+}
+
+.settings-section {
+  margin-bottom: 20px;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.settings-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.settings-section-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.settings-section-header i {
+  color: var(--primary-color);
+}
+
+.settings-section-content {
+  padding: 10px 15px;
+}
+
+.settings-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.settings-item:last-child {
+  border-bottom: none;
+}
+
+.settings-item-label {
+  font-size: 14px;
+}
+
+.settings-item-control {
+  display: flex;
+  align-items: center;
+}
+
+.settings-item-value {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.settings-item-control select,
+.settings-item-control input[type="text"] {
+  padding: 5px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+}
+
+.color-options {
+  display: flex;
+  gap: 5px;
+}
+
+.color-option {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+}
+
+.color-option.selected::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  bottom: -3px;
+  left: -3px;
+  border: 2px solid var(--text-color);
+  border-radius: 50%;
+}
+
+.range-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.range-control input[type="range"] {
+  flex-grow: 1;
+}
+
+.range-value {
+  min-width: 40px;
+  text-align: right;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.settings-action-btn {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--danger-color);
+  color: white;
+  cursor: pointer;
+}
+
+.storage-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.storage-used {
+  height: 100%;
+  background-color: var(--primary-color);
+}
+
+.storage-text {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  /* Color Variables */
+  --phone-frame-color: #e0e0e0;
+  --phone-screen-color: #f9f9f9;
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --danger-color: #e74c3c;
+  --text-color: #333333;
+  --text-light: #ffffff;
+  --text-muted: #95a5a6;
+  --border-color: #dddddd;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  
+  /* Size Variables */
+  --phone-width: 320px;
+  --phone-height: 640px;
+  --status-bar-height: 30px;
+  --nav-bar-height: 60px;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: var(--text-color);
+  padding: 20px;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  margin-bottom: 30px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Phone Frame Styles */
+.phone-frame {
+  width: var(--phone-width);
+  height: var(--phone-height);
+  background-color: var(--phone-frame-color);
+  border-radius: 36px;
+  position: relative;
+  padding: 12px;
+  box-shadow: 0 15px 30px var(--shadow-color);
+  overflow: hidden;
+}
+
+/* Phone Screen Styles */
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  background-color: var(--phone-screen-color);
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Status Bar Styles */
+.status-bar {
+  height: var(--status-bar-height);
+  background-color: var(--phone-screen-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.status-bar-time {
+  font-weight: 600;
+}
+
+.status-bar-icons {
+  display: flex;
+  gap: 8px;
+}
+
+.status-bar-icons i {
+  font-size: 12px;
+}
+
+.battery-icon {
+  width: 20px;
+  height: 10px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  position: relative;
+  margin-left: 5px;
+}
+
+.battery-icon::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: calc(var(--level, 70) * 0.14px);
+  height: 6px;
+  background-color: currentColor;
+  border-radius: 1px;
+}
+
+/* Set battery level based on data-level attribute */
+.battery-icon[data-level] {
+  --level: attr(data-level);
+}
+
+/* Fallback static levels */
+.battery-icon[data-level="100"] { --level: 100; }
+.battery-icon[data-level="90"] { --level: 90; }
+.battery-icon[data-level="80"] { --level: 80; }
+.battery-icon[data-level="70"] { --level: 70; }
+.battery-icon[data-level="60"] { --level: 60; }
+.battery-icon[data-level="50"] { --level: 50; }
+.battery-icon[data-level="40"] { --level: 40; }
+.battery-icon[data-level="30"] { --level: 30; }
+.battery-icon[data-level="20"] { --level: 20; }
+.battery-icon[data-level="10"] { --level: 10; }
+
+.battery-icon::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  right: -3px;
+  width: 2px;
+  height: 4px;
+  background-color: currentColor;
+  border-radius: 0 1px 1px 0;
+}
+
+/* Home Screen Styles */
+.home-screen {
+  height: calc(100% - var(--status-bar-height) - var(--nav-bar-height));
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding-top: 10px;
+}
+
+.app-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.app-icon:hover, .app-icon:active {
+  transform: scale(1.1);
+}
+
+.app-icon-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background-color: var(--primary-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.app-icon-name {
+  font-size: 12px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/* App Screens */
+.app-screen {
+  position: absolute;
+  top: var(--status-bar-height);
+  left: 0;
+  width: 100%;
+  height: calc(100% - var(--status-bar-height) - var(--nav-bar-height));
+  background-color: white;
+  z-index: 10;
+  display: none;
+  overflow-y: auto;
+}
+
+.app-screen.active {
+  display: block;
+  animation: fadeIn 0.3s;
+}
+
+.app-header {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--phone-screen-color);
+}
+
+.app-title {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.app-back-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+  color: var(--primary-color);
+}
+
+.app-content {
+  padding: 15px;
+  height: calc(100% - 50px);
+  overflow-y: auto;
+}
+
+/* Navigation Bar Styles */
+.nav-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: var(--nav-bar-height);
+  background-color: var(--phone-screen-color);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+}
+
+.nav-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--phone-screen-color);
+  border: 1px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.nav-btn:hover {
+  background-color: var(--border-color);
+}
+
+/* Sudoku Game Styles */
+.sudoku-container {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.sudoku-board {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  gap: 1px;
+  border: 2px solid var(--text-color);
+  margin-top: 15px;
+}
+
+.sudoku-cell {
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+}
+
+.sudoku-cell.fixed {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}
+
+.sudoku-cell.selected {
+  background-color: #e3f2fd;
+}
+
+.sudoku-cell.error {
+  color: var(--danger-color);
+}
+
+.sudoku-cell:nth-child(3n) {
+  border-right: 2px solid var(--text-color);
+}
+
+.sudoku-cell:nth-child(9n) {
+  border-right: none;
+}
+
+.sudoku-row:nth-child(3n) .sudoku-cell {
+  border-bottom: 2px solid var(--text-color);
+}
+
+.sudoku-controls {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  margin-top: 15px;
+}
+
+.sudoku-number-btn {
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.sudoku-clear-btn {
+  grid-column: span 2;
+  background-color: var(--danger-color);
+}
+
+.sudoku-check-btn {
+  grid-column: span 3;
+  background-color: var(--secondary-color);
+}
+
+/* Minesweeper Game Styles */
+.minesweeper-container {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.minesweeper-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  background-color: var(--text-color);
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+}
+
+.minesweeper-stats {
+  display: flex;
+  gap: 15px;
+}
+
+.minesweeper-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 2px;
+  margin-top: 15px;
+}
+
+.minesweeper-cell {
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 2px;
+  user-select: none;
+}
+
+.minesweeper-cell.revealed {
+  background-color: white;
+  cursor: default;
+}
+
+.minesweeper-cell.flagged::before {
+  content: '🚩';
+}
+
+.minesweeper-cell.mine-revealed {
+  background-color: var(--danger-color);
+}
+
+.minesweeper-cell.mine-revealed::before {
+  content: '💣';
+}
+
+.minesweeper-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.minesweeper-mode {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.minesweeper-btn {
+  padding: 8px 15px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Media queries for better responsiveness */
+@media (max-height: 700px) {
+  :root {
+    --phone-height: 560px;
+  }
+  
+  .app-grid {
+    gap: 15px;
+  }
+  
+  .app-icon-img {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 400px) {
+  :root {
+    --phone-width: 280px;
+    --phone-height: 560px;
+  }
+  
+  .app-grid {
+    gap: 15px;
+  }
+  
+  .app-icon-img {
+    width: 40px;
+    height: 40px;
+  }
+}
